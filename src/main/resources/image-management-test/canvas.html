@@ -1,0 +1,67 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Canvas</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <style>
+    </style>
+    <script>
+        $(function () {
+            // Portrait (2:3) or landscape (3:2)
+            var PORTRAIT = "PORTRAIT";
+            var PORTRAIT_MAX_WIDTH = 600;
+            var PORTRAIT_MAX_HEIGHT = 900;
+            var LANDSCAPE = "LANDSCAPE";
+            var LANDSCAPE_MAX_WIDTH = 900;
+            var LANDSCAPE_MAX_HEIGHT = 600;
+            var orientation = PORTRAIT;
+
+            var context = document.getElementById("canvas1").getContext("2d");
+            context.fillStyle = "rgba(255, 255, 255, 1.0)";
+
+            $("#canvas1").
+                    on("dblclick", function () {
+                        if (orientation === PORTRAIT) {
+                            orientation = LANDSCAPE;
+                            $("#canvas1")
+                                    .width(LANDSCAPE_MAX_WIDTH)
+                                    .height(LANDSCAPE_MAX_HEIGHT);
+                            context.fillRect(0, 0, LANDSCAPE_MAX_WIDTH, LANDSCAPE_MAX_HEIGHT);
+                        } else {
+                            orientation = PORTRAIT;
+                            $("#canvas1")
+                                    .width(PORTRAIT_MAX_WIDTH)
+                                    .height(PORTRAIT_MAX_HEIGHT);
+                            context.fillRect(0, 0, PORTRAIT_MAX_WIDTH, PORTRAIT_MAX_HEIGHT);
+                        }
+                    })
+                    .on("contextmenu", function () {
+                        var image = document.getElementById("image1");
+                        var canvas = document.getElementById("canvas1");
+                        if(orientation == LANDSCAPE) { // Vi vil alltid fylle bredde
+                            var wscale = (canvas.width / image.width);
+                            context.drawImage(image, 0, 0, image.width, image.height);
+                        } else { // Vi vil alltid fylle høgd
+                            var hscale = (canvas.height / image.height);
+                            context.drawImage(image, 0, 0, image.width, image.height);
+                        }
+
+                        return false;
+                    })
+            ;
+        });
+    </script>
+</head>
+<body>
+
+<!--<img id="image1" src="1.jpg" style="display: none;"/>-->
+<!--<img id="image1" src="1-V.jpg" style="display: none;"/>-->
+<img id="image1" src="square.png" style="display: none;"/>
+<canvas id="canvas1" width="600" height="900"></canvas>
+
+</body>
+</html>

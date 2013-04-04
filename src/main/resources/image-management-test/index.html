@@ -1,5 +1,5 @@
 <!doctype html>
- 
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -11,7 +11,9 @@
   <style>
   #sortable { max-width: 1024px;}
   #sortable img { float: left; }
+  .onethird { width: 32.8333%; margin-top: 5px; margin-bottom: 5px; margin-left: .25%; margin-right: .25%;}
   .halfwidth { width: 49.5%; margin-top: 5px; margin-bottom: 5px; margin-left: .25%; margin-right: .25%;}
+  .twothirds { width: 66.1666%; margin-top: 5px; margin-bottom: 5px; margin-left: .25%; margin-right: .25%;}
   .fullwidth { width: 99.5%; margin-top: 5px; margin-bottom: 5px; margin-left: .25%; margin-right: .25%}
   </style>
   <script>
@@ -20,21 +22,27 @@
     // $( "#sortable" ).disableSelection();
 
     $("img").dblclick(function() {
-      var currentClass = $(this).attr("class");
-      if(currentClass === "fullwidth") {
-        $(this).attr("class", "halfwidth");
-      } else {
-        $(this).attr("class", "fullwidth");
-      }
+        var currentClass = $(this).attr("class");
+        if (currentClass === "onethird") {
+            $(this).attr("class", "halfwidth");
+        } else if (currentClass === "halfwidth") {
+            $(this).attr("class", "twothirds");
+        } else if (currentClass === "twothirds") {
+            $(this).attr("class", "fullwidth");
+        } else {
+            $(this).attr("class", "onethird");
+        }
     });
   });
   </script>
 </head>
 <body>
- 
+
 <div id="sortable">
   <img src="1.jpg" class="halfwidth"/>
+  <img src="1-V.jpg" class="halfwidth"/>
   <img src="2.jpg" class="halfwidth"/>
+  <img src="2-V.jpg" class="halfwidth"/>
   <img src="3.jpg" class="halfwidth"/>
   <img src="4.jpg" class="halfwidth"/>
   <img src="5.jpg" class="halfwidth"/>
