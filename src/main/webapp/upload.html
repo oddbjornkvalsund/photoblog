@@ -47,6 +47,10 @@
     </p>
 </form>
 <script>
+    function getProgress(data) {
+        return parseInt(data.loaded / data.total * 100, 10);
+    }
+
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
@@ -69,13 +73,11 @@
             progress: function (e, data) {
                 if (data.files.length == 1) {
                     var filename = data.files[0].name;
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    data.context.text(filename + ' ' + progress + "%");
+                    data.context.text(filename + ' ' + getProgress(data) + "%");
                 }
             },
             progressall: function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                if(progress === 100) {
+                if(getProgress(data) === 100) {
                     window.location = "/";
                 }
             }
