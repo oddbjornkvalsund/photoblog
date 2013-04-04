@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PhotoBlog</title>
+    <script src="js/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+    <script src="js/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
+    <script src="js/jquery-fileupload/jquery.iframe-transport.js"></script>
+    <script src="js/jquery-fileupload/jquery.fileupload.js"></script>
+    <script src="js/jquery-fileupload/vendor/jquery.ui.widget.js"></script>
+    <link rel="stylesheet" href="js/jquery-ui-1.10.2/themes/base/jquery-ui.css" type="text/css"/>
+    <style type="text/css">
+        body {
+            font-family: 'Verdana', sans-serif;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <p>
+        <label for="title">Title:</label><br/>
+        <input id="title" name="title" type="text" style="width: 500px"/>
+    </p>
+
+    <p>
+        <label for="datepicker">Date:</label><br/>
+        <input id="datepicker" name="datepicker" type="text" style="width: 500px"/>
+    </p>
+
+    <p>
+        <label for="description">Description:</label><br/>
+        <textarea id="description" name="description" style="width: 500px"></textarea>
+    </p>
+
+    <p>
+        <input id="fileupload" type="file" name="files[]" data-url="/photos" multiple>
+    </p>
+
+    <ul id="filesToUpload">
+    </ul>
+
+    <p>
+        <button id="saveButton" type="button">Save</button>
+        <button id="cancelButton" type="button">Cancel</button>
+        <button id="resetButton" type="button">Reset</button>
+    </p>
+</form>
+<script>
+    $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                if (data.files.length == 1) {
+                    var filename = data.files[0].name;
+                    data.context = $('<li/>').text(filename).appendTo($('#filesToUpload'));
+
+                    $("#saveButton").on("click", function () {
+                        data.submit();
+                    });
+                }
+            },
+            done: function (e, data) {
+                if (data.files.length == 1) {
+                    var filename = data.files[0].name;
+                    data.context.text(filename + ' done!');
+                }
+            },
+            progress: function (e, data) {
+                if (data.files.length == 1) {
+                    var filename = data.files[0].name;
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    data.context.text(filename + ' ' + progress + "%");
+                }
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                if(progress === 100) {
+                    window.location = "/";
+                }
+            }
+        });
+    });
+    $(function () {
+        $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });
+    });
+    $("#cancelButton").on("click", function () {
+        window.location = "/";
+    });
+    $("#resetButton").on("click", function () {
+        $("#title").val("");
+        $("#datepicker").val("");
+        $("#description").val("");
+        $("#saveButton").unbind("click");
+        $("#filesToUpload").empty();
+    });
+</script>
+</body>
+</html>

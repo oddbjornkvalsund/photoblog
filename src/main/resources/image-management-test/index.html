@@ -1,0 +1,45 @@
+<!doctype html>
+ 
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>jQuery UI Sortable - Default functionality</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <style>
+  #sortable { max-width: 1024px;}
+  #sortable img { float: left; }
+  .halfwidth { width: 49.5%; margin-top: 5px; margin-bottom: 5px; margin-left: .25%; margin-right: .25%;}
+  .fullwidth { width: 99.5%; margin-top: 5px; margin-bottom: 5px; margin-left: .25%; margin-right: .25%}
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable();
+    // $( "#sortable" ).disableSelection();
+
+    $("img").dblclick(function() {
+      var currentClass = $(this).attr("class");
+      if(currentClass === "fullwidth") {
+        $(this).attr("class", "halfwidth");
+      } else {
+        $(this).attr("class", "fullwidth");
+      }
+    });
+  });
+  </script>
+</head>
+<body>
+ 
+<div id="sortable">
+  <img src="1.jpg" class="halfwidth"/>
+  <img src="2.jpg" class="halfwidth"/>
+  <img src="3.jpg" class="halfwidth"/>
+  <img src="4.jpg" class="halfwidth"/>
+  <img src="5.jpg" class="halfwidth"/>
+  <img src="6.jpg" class="halfwidth"/>
+</div>
+
+</body>
+</html>
