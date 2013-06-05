@@ -2,6 +2,7 @@ package no.nixx.photoblog.server;
 
 import no.nixx.photoblog.error.ErrorHandler;
 import no.nixx.photoblog.servlet.PhotosServlet;
+import no.nixx.photoblog.servlet.PostServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -11,6 +12,7 @@ public class PhotoBlogServer {
     // See https://github.com/jesperfj/jetty-secured-sample/blob/master/src/main/java/HelloWorld.java
     // for HTTP basic authentication sample.
 
+    public static final String NEW_POST_SERVLET_PATH = "/post";
     public static final String IMAGE_UPLOAD_SERVLET_PATH = "/photos";
 
     public static void main(String[] args) throws Exception {
@@ -20,6 +22,7 @@ public class PhotoBlogServer {
 
         final WebAppContext webAppContext = new WebAppContext("src/main/webapp", "/");
         webAppContext.addServlet(PhotosServlet.class, IMAGE_UPLOAD_SERVLET_PATH);
+        webAppContext.addServlet(PostServlet.class, NEW_POST_SERVLET_PATH);
         webAppContext.setErrorHandler(new ErrorHandler());
 
         final Server server = new Server();
