@@ -4,9 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
-/**
- * Oddbjørn Kvalsund
- */
 public class Image implements JSONString {
 
     public String filename;

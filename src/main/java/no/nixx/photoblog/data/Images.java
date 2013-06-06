@@ -6,9 +6,6 @@ import org.json.JSONString;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Oddbjørn Kvalsund
- */
 public class Images implements JSONString {
 
     public List<Image> images = new ArrayList<Image>();

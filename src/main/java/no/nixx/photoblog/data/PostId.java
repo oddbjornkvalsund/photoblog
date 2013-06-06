@@ -4,14 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
-/**
- * Oddbjørn Kvalsund
- */
 public class PostId implements JSONString {
-    public String postId;
 
-    public PostId() {
-    }
+    public String postId;
 
     public PostId(String postId) {
         this.postId = postId;

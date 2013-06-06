@@ -1,6 +1,5 @@
 package no.nixx.photoblog.servlet;
 
-import no.nixx.photoblog.data.Images;
 import no.nixx.photoblog.data.Post;
 import no.nixx.photoblog.data.PostId;
 
@@ -19,7 +18,9 @@ public class PostServlet extends HttpServlet {
         super();
 
         if (!DATA_DIR.exists()) {
-            DATA_DIR.mkdirs();
+            if(!DATA_DIR.mkdirs()) {
+                throw new RuntimeException("Unable to create data dir!");
+            }
         }
     }
 

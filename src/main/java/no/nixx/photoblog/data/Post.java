@@ -10,9 +10,6 @@ import org.json.JSONString;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Oddbjørn Kvalsund
- */
 public class Post implements JSONString {
 
     public String postId;
@@ -30,14 +27,6 @@ public class Post implements JSONString {
         this.date = date;
         this.description = description;
         this.images = new Images();
-    }
-
-    public Post(String postId, String title, String date, String description, Images images) {
-        this.postId = postId;
-        this.title = title;
-        this.date = date;
-        this.description = description;
-        this.images = images;
     }
 
     public static Post parseFromString(String string) {

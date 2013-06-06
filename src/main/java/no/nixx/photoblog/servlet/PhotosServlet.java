@@ -22,25 +22,6 @@ public class PhotosServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String id = request.getParameter("id");
-        if (id == null) {
-            throw new RuntimeException("Photo id must be specified!!");
-        }
-
-        final File file = new File(PostServlet.DATA_DIR, id); // Perform sanity check on the photo id string
-        final PrintWriter writer = response.getWriter();
-        if (file.exists()) {
-            final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
-
-            // Set content type and length
-            // Read from input and write to writer
-        }
-
-        writer.write("Hello!");
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // This is called in parallel/separate calls, one for each file upload
