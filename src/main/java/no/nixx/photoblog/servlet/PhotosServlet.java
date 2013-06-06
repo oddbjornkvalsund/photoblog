@@ -1,5 +1,7 @@
 package no.nixx.photoblog.servlet;
 
+import no.nixx.photoblog.data.Image;
+import no.nixx.photoblog.data.Post;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -11,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -123,20 +126,10 @@ public class PhotosServlet extends HttpServlet {
             throw new RuntimeException("Unable to write uploaded file to file: " + imageFile, e);
         }
 
-        // TODO: Separate handling of "post.json" to a class
-        try {
-            final FileInputStream inputStream = new FileInputStream(postFile);
-            final String postFileContent = IOUtils.toString(inputStream, PostServlet.FILE_ENCODING);
-
-            final JSONObject post = new JSONObject(postFileContent);
-            final JSONArray files = post.getJSONArray("files");
-            files.put(imageFile.getName());
-
-            final FileOutputStream outputStream = new FileOutputStream(postFile);
-            IOUtils.write(post.toString(), outputStream, PostServlet.FILE_ENCODING);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to add image to post!", e);
-        }
+        final Image image = new Image(imageFile.getName(), "");// TODO: Empty orientation
+        final Post post = Post.parseFromFile(postFile);
+        post.images.add(image);
+        post.writeToFile(postFile);
     }
 
     private String getSanitizedFileName(FileItem imageFileItem) {

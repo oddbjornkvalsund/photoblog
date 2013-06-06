@@ -1,17 +1,14 @@
 package no.nixx.photoblog.servlet;
 
-import org.apache.commons.io.FileUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-import org.json.JSONWriter;
+import no.nixx.photoblog.data.Images;
+import no.nixx.photoblog.data.Post;
+import no.nixx.photoblog.data.PostId;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 
 public class PostServlet extends HttpServlet {
 
@@ -35,14 +32,7 @@ public class PostServlet extends HttpServlet {
 
         createPost(postId, date, title, description);
 
-        try {
-            final JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("postId", postId);
-
-            response.getWriter().write(jsonResponse.toString());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        response.getWriter().write(new PostId(postId).toString());
     }
 
     private void createPost(String postId, String date, String title, String description) throws IOException {
@@ -61,17 +51,8 @@ public class PostServlet extends HttpServlet {
             throw new IOException("Could not create file for post with id = " + postId);
         }
 
-        try {
-            final JSONObject postContent = new JSONObject();
-            postContent.put("date", date);
-            postContent.put("title", title);
-            postContent.put("description", description);
-            postContent.put("files", Collections.EMPTY_LIST);
-
-            FileUtils.write(postFile, postContent.toString());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        final Post post = new Post(postId, title, date, description);
+        post.writeToFile(postFile);
     }
 
     public String getPostId(String date, String title) {
