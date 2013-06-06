@@ -5,24 +5,17 @@ import no.nixx.photoblog.data.Post;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class PhotosServlet extends HttpServlet {
-
-    final SimpleDateFormat postIdDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
     public PhotosServlet() {
         super();
@@ -60,7 +53,6 @@ public class PhotosServlet extends HttpServlet {
 
         try {
             final Map<String, List<FileItem>> parameterMap = uploadHandler.parseParameterMap(request);
-
             final String postId = getPostId(parameterMap);
             final FileItem imageFileItem = getImageFile(parameterMap);
 
@@ -68,11 +60,6 @@ public class PhotosServlet extends HttpServlet {
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         }
-
-//      final PrintWriter writer = response.getWriter();
-//      writer.write(generateJSONResponse(postId, files));
-
-        //response.sendRedirect("/edit?id=" + postId);
     }
 
     private String getPostId(Map<String, List<FileItem>> parameterMap) {

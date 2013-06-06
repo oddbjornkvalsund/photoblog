@@ -2,14 +2,12 @@ package no.nixx.photoblog.data;
 
 import no.nixx.photoblog.servlet.PostServlet;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -53,7 +51,7 @@ public class Post implements JSONString {
 
             final Images images = new Images();
             final JSONArray files = jsonObject.getJSONArray("images");
-            for(int i = 0; i < files.length(); i++) {
+            for (int i = 0; i < files.length(); i++) {
                 final JSONObject file = files.getJSONObject(i);
                 final String filename = file.getString("filename");
                 final String orientation = file.getString("orientation");
@@ -71,11 +69,9 @@ public class Post implements JSONString {
 
     public static Post parseFromFile(File file) {
         try {
-            final FileInputStream fileInputStream = new FileInputStream(file);
-            final String content = IOUtils.toString(fileInputStream, PostServlet.FILE_ENCODING);
-
+            final String content = FileUtils.readFileToString(file, PostServlet.FILE_ENCODING);
             return parseFromString(content);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
